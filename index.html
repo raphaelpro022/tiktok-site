@@ -20,23 +20,9 @@
     <p>Connectez votre compte TikTok pour tester notre outil.</p>
 
     <!-- 🚀 Bouton de connexion avec TikTok -->
-   <a id="tiktok-login" class="btn" href="#">🚀 Se connecter avec TikTok</a>
-
-<script>
-  const clientKey = "sbawyevz981byo72o7";
-  const redirectUri = "https://raphaelpro022.github.io/tiktok-site/callback.html";
-  const scopes = ["user.info.basic","user.info.stats","video.upload"].join(",");
-  const state = "st" + Date.now(); // simple anti-CSRF
-
-  const authUrl = "https://www.tiktok.com/v2/auth/authorize/?" +
-    "client_key=" + encodeURIComponent(clientKey) +
-    "&response_type=code" +
-    "&scope=" + encodeURIComponent(scopes) +
-    "&redirect_uri=" + encodeURIComponent(redirectUri) +
-    "&state=" + encodeURIComponent(state);
-
-  document.getElementById("tiktok-login").href = authUrl;
-</script>
+   <a href="https://www.tiktok.com/v2/auth/authorize/?client_key=sbawyevz981byo72o7&scope=user.info.basic,user.info.stats,video.upload&response_type=code&redirect_uri=https%3A%2F%2Fraphaelpro022.github.io%2Ftiktok-site%2Fcallback.html&state=st12345">
+  <button>Se connecter avec TikTok</button>
+</a>
        🚀 Se connecter avec TikTok
     </a>
   </main>
