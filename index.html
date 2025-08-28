@@ -4,62 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TikTok Bot - Connexion</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    header, footer {
-      background: #111;
-      color: #fff;
-      padding: 15px 20px;
-      text-align: center;
-    }
-    nav a {
-      color: #fff;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 30px;
-    }
-    h1 {
-      margin: 0;
-    }
-    h2 {
-      margin: 15px 0;
-      color: #333;
-    }
-    p {
-      max-width: 500px;
-      color: #666;
-    }
-    .btn-tiktok {
-      background: #000;
-      color: #fff;
-      font-size: 18px;
-      padding: 12px 25px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background 0.3s ease;
-    }
-    .btn-tiktok:hover {
-      background: #ff0050;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
@@ -74,6 +19,7 @@
     <h2>Automatisez vos vidéos TikTok en toute simplicité</h2>
     <p>Connectez votre compte TikTok pour tester notre outil d'automatisation.</p>
     <button class="btn-tiktok" onclick="connectTikTok()">🚀 Se connecter avec TikTok</button>
+    <div id="status"></div>
   </main>
 
   <footer>
@@ -85,11 +31,14 @@
       const clientKey = "sbawyevz981byo72o7";
       const redirectUri = encodeURIComponent("https://raphaelpro022.github.io/tiktok-site/callback.html");
       const scopes = ["user.info.basic", "user.info.stats", "video.upload"].join(",");
-      const state = "st" + Date.now(); // Anti-CSRF basique
+      const state = "st" + Date.now();
 
       const url = `https://www.tiktok.com/v2/auth/authorize/?client_key=${clientKey}&scope=${scopes}&response_type=code&redirect_uri=${redirectUri}&state=${state}`;
 
-      window.location.href = url;
+      document.getElementById("status").textContent = "Redirection en cours...";
+      setTimeout(() => {
+        window.location.href = url;
+      }, 800);
     }
   </script>
 </body>
