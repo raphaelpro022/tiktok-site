@@ -19,7 +19,7 @@
         "Code d'autorisation reçu : " + code + "\n\nEnvoi au serveur...";
 
       // 🔹 Envoi du code à ton backend Vercel
-      fetch("https://TON-PROJET.vercel.app/api/exchange", {
+      fetch("https://tiktok-bot-api.vercel.app/api/exchange", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: code })
