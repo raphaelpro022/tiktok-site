@@ -6,7 +6,7 @@
 </head>
 <body>
   <h2>Connexion TikTok en cours...</h2>
-  <pre id="result"></pre>
+  <pre id="result">Chargement...</pre>
 
   <script>
     // Récupère les paramètres de l'URL (ex: ?code=xxxxx)
@@ -16,14 +16,30 @@
 
     if (code) {
       document.getElementById("result").textContent =
-        "Code d'autorisation reçu : " + code;
-      // Tu peux l'envoyer à ton serveur ici via fetch()
+        "Code d'autorisation reçu : " + code + "\n\nEnvoi au serveur...";
+
+      // 🔹 Envoi du code à ton backend Vercel
+      fetch("https://TON-PROJET.vercel.app/api/exchange", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: code })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").textContent =
+          "✅ Réponse du serveur TikTok :\n\n" + JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        document.getElementById("result").textContent =
+          "❌ Erreur lors de la requête : " + err.message;
+      });
+
     } else if (error) {
       document.getElementById("result").textContent =
-        "Erreur : " + error;
+        "Erreur TikTok : " + error;
     } else {
       document.getElementById("result").textContent =
-        "Aucun code reçu.";
+        "⚠️ Aucun code reçu dans l’URL.";
     }
   </script>
 </body>
