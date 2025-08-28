@@ -5,14 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TikTok Callback</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 2rem; background: #f5f5f5; color: #333; }
-    h2 { color: #00f2ea; }
-    pre { background: #222; color: #0f0; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      color: #00f2ea;
+      margin-bottom: 1rem;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #0f0;
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 800px;
+      width: 100%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-x: auto;
+    }
+    .loading { color: orange; }
+    .error { color: red; }
+    .success { color: lime; }
   </style>
 </head>
 <body>
   <h2>Connexion TikTok en cours...</h2>
-  <pre id="result">Chargement...</pre>
+  <pre id="result" class="loading">Chargement...</pre>
 
   <script>
     async function exchangeCode() {
@@ -24,18 +49,20 @@
 
       if (error) {
         resultEl.textContent = "❌ Erreur TikTok : " + error;
+        resultEl.className = "error";
         return;
       }
 
       if (!code) {
         resultEl.textContent = "⚠️ Aucun code reçu dans l’URL.";
+        resultEl.className = "error";
         return;
       }
 
       resultEl.textContent = "🔹 Code reçu, échange en cours...";
 
       try {
-        const res = await fetch("https://tiktok-bot-api.vercel.app/api/exchange", {
+        const res = await fetch("https://tiktok-bot-api-8423.vercel.app/api/exchange", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code })
@@ -45,12 +72,15 @@
 
         if (!res.ok) {
           resultEl.textContent = "❌ Erreur serveur :\n" + JSON.stringify(data, null, 2);
+          resultEl.className = "error";
         } else {
           resultEl.textContent = "✅ Token reçu avec succès :\n" + JSON.stringify(data, null, 2);
+          resultEl.className = "success";
         }
 
       } catch (err) {
         resultEl.textContent = "❌ Erreur lors de la requête : " + err.message;
+        resultEl.className = "error";
       }
     }
 
