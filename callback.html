@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>TikTok Callback</title>
+</head>
+<body>
+  <h2>Connexion TikTok en cours...</h2>
+  <pre id="result"></pre>
+
+  <script>
+    // Récupère les paramètres de l'URL (ex: ?code=xxxxx)
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const error = params.get("error");
+
+    if (code) {
+      document.getElementById("result").textContent =
+        "Code d'autorisation reçu : " + code;
+      // Tu peux l'envoyer à ton serveur ici via fetch()
+    } else if (error) {
+      document.getElementById("result").textContent =
+        "Erreur : " + error;
+    } else {
+      document.getElementById("result").textContent =
+        "Aucun code reçu.";
+    }
+  </script>
+</body>
+</html>
