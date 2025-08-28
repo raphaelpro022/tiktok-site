@@ -9,37 +9,41 @@
   <pre id="result">Chargement...</pre>
 
   <script>
-    // Récupère les paramètres de l'URL (ex: ?code=xxxxx)
+    // 🔎 Récupère les paramètres de l'URL (ex: ?code=xxxxx)
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
     const error = params.get("error");
 
-    if (code) {
+    if (error) {
+      document.getElementById("result").textContent = "❌ Erreur TikTok : " + error;
+    } else if (!code) {
+      document.getElementById("result").textContent = "⚠️ Aucun code reçu dans l’URL.";
+    } else {
       document.getElementById("result").textContent =
-        "Code d'autorisation reçu : " + code + "\n\nEnvoi au serveur...";
+        "Code d'autorisation reçu : " + code + "\n\n⏳ Envoi au serveur...";
 
       // 🔹 Envoi du code à ton backend Vercel
       fetch("https://tiktok-bot-api.vercel.app/api/exchange", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: code })
+        body: JSON.stringify({ code })
       })
       .then(res => res.json())
       .then(data => {
         document.getElementById("result").textContent =
           "✅ Réponse du serveur TikTok :\n\n" + JSON.stringify(data, null, 2);
+
+        // 💡 Optionnel : affiche access_token / open_id si présents
+        if (data.access_token) {
+          document.getElementById("result").textContent +=
+            "\n\n🔑 Access Token : " + data.access_token +
+            "\n👤 Open ID : " + data.open_id;
+        }
       })
       .catch(err => {
         document.getElementById("result").textContent =
           "❌ Erreur lors de la requête : " + err.message;
       });
-
-    } else if (error) {
-      document.getElementById("result").textContent =
-        "Erreur TikTok : " + error;
-    } else {
-      document.getElementById("result").textContent =
-        "⚠️ Aucun code reçu dans l’URL.";
     }
   </script>
 </body>
